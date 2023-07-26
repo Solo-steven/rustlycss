@@ -1,0 +1,23 @@
+[package]
+name = "rustlycss_parser"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rustlycss_types = { version = "0.1.0", path = "../rustlycss_types"}
+
+[dev-dependencies]
+criterion = { version = "0.4", features = ["html_reports"] }
+serde = { version = "1.0", feature= ["derive"] }
+serde_derive = "1.0.164"
+serde_json = "1.0.99"
+
+[[bench]]
+name = "benches_lexer"
+harness = false
+
+[[bench]]
+name = "benches_parser"
+harness = false

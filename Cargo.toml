@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "crates/rustlycss_types",
+    "crates/rustlycss_parser",
+    # "crates/rustlycss_generator",
+    # "crates/rustlycss_nested"
+]
