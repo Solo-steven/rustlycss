@@ -2,11 +2,11 @@ use rustlycss_types::token::*;
 use std::borrow::BorrowMut;
 use std::str::CharIndices;
 
-pub struct Lexer<'source_str> {
+pub struct Lexer<'a> {
 
-    source: &'source_str str,
+    source: &'a str,
 
-    iter: CharIndices<'source_str>,
+    iter: CharIndices<'a>,
     iter_char: Option<char>,
     iter_byte_index: usize,
 
@@ -19,20 +19,6 @@ pub struct Lexer<'source_str> {
     // start_pos: Position,
     // finish_pos: Position,
 }
-
-// when reading word, we need to quick scanning source string and stop when meet some
-// char, it ok to implement Hashset, but the time cost too mach, so we write in array 
-// index.
-const INDEX_OF_AT_END: [usize; 255] = [
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-];
 
 impl<'a> Lexer<'a> {
     pub fn new(source: &'a str) -> Self {
@@ -248,13 +234,27 @@ impl<'a> Lexer<'a> {
                     return Token::EOF;
                 }
                 Some(code)=> {
-                    if (code as usize) < 255 {
-                        if  INDEX_OF_AT_END[code as usize] == 1 {
+                    match code {
+                        AT_CHAR |
+                        SEMI_CHAR |
+                        COLON_CHAR |
+                        COMMA_CHAR |
+                        BRACES_LEFT_CHAR |
+                        BRACES_RIGHT_CHAR |
+                        BRACKET_LEFT_CHAR |
+                        BRACKET_RIGHT_CHAR |
+                        PARENTHESES_LEFT_CHAR |
+                        PARENTHESES_RIGHT_CHAR |
+                        SPACE_CHAR | TAB_CHAR |
+                        NEWLINE_CHAR |
+                        SINGLE_QUOTE | DOUBLE_QUOTE => {
                             self.finish_token();
                             return Token::Word;
                         }
+                        _ => {
+                            self.eat_char(1)
+                        }
                     }
-                    self.eat_char(1)
                 }
             }
         }

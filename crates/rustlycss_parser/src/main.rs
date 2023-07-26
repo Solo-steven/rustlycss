@@ -18,6 +18,7 @@ fn to_tokens(code: &str) {
         let t = lexer.next_token();
         match t {
             Token::EOF => {
+                println!("[TOKEN: {:?}, value: {:?}]",t, lexer.get_sub_str(lexer.get_start_byte_index(), lexer.get_finish_byte_index()));
                 break;
             }
             _ => {
@@ -44,7 +45,7 @@ fn main() {
     ";
     // let mut lexer = Lexer::new(BIG_FILE_STR);
     to_tokens(code);
-    let mut parser = Parser::new(HUGE_FILE_STR);
+    let mut parser = Parser::new(code);
     let root = parser.parse();
     println!("{:?}", root);
 }

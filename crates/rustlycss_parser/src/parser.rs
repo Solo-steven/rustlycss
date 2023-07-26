@@ -1,15 +1,10 @@
 use std::borrow::Cow;
 use crate::lexer::Lexer;
-use rustlycss_types::position::Position;
 use rustlycss_types::token::Token;
 use rustlycss_types::ast::*;
 
 pub struct Parser<'source_str> {
     lexer: Lexer<'source_str>,
-}
-
-struct  MetaWithNodes<'a> {
-    nodes: Vec<Child<'a>>,
 }
 
 impl<'source_str> Parser <'source_str> {
@@ -21,45 +16,32 @@ impl<'source_str> Parser <'source_str> {
     // compsition method for lexer
     #[inline]
     pub fn next_token(&mut self,) -> Token {
-        let token = self.lexer.next_token();
-
-        if token == Token::Comment {
-            return self.next_token();
+        let mut token = self.lexer.next_token();
+        loop {
+            match token {
+                Token::Comment => {
+                    token = self.lexer.next_token();
+                }
+                _ => {
+                    return token;
+                }
+            }
         }
-        return token;
-        // loop {
-        //     match token {
-        //         Token::Comment => {
-        //             token = self.lexer.next_token();
-        //         }
-        //         _ => {
-        //             return token;
-        //         }
-        //     }
-        // }
     }
     // composition method for lexer
     #[inline]
     pub fn get_token(&mut self) -> Token {
-        let token = self.lexer.get_token();
-        if token == Token::Start {
-            return self.next_token();
+        let mut token = self.lexer.get_token();
+        loop {
+            match token {
+                Token::Comment | Token::Start => {
+                    token = self.lexer.next_token();
+                }
+                _ => {
+                    return token;
+                }
+            }
         }
-        if token == Token::Comment {
-            return self.next_token();
-        }
-        return token;
-        // let mut token = self.lexer.get_token();
-        // loop {
-        //     match token {
-        //         Token::Comment => {
-        //             token = self.lexer.next_token();
-        //         }
-        //         _ => {
-        //             return token;
-        //         }
-        //     }
-        // }
     }
     // composition method for lexer
     #[inline]
