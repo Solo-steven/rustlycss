@@ -1,0 +1,11 @@
+{
+  "name": "js-benchmark",
+  "packageManager": "yarn@3.6.0",
+  "scripts": {
+    "bench": "node index.js"
+  },
+  "dependencies": {
+    "postcss": "^8.4.25",
+    "tinybench": "^2.5.0"
+  }
+}
