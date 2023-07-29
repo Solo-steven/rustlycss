@@ -1,4 +1,5 @@
 use rustlycss_types::position::Position;
+use crate::syntax_error;
 use rustlycss_types::token::*;
 use std::borrow::BorrowMut;
 use std::str::CharIndices;
@@ -214,7 +215,7 @@ impl<'a> Lexer<'a> {
             match self.get_char() {
                 None => {
                     self.finish_token();
-                    panic!("[Syntax Error]: Unclose string Literal, expect close char {:?}", close_char);
+                    syntax_error!(format!("Unclose string Literal, expect close char {:?}", close_char));
                 }
                 Some(code) => {
                     self.eat_char(1);
@@ -269,7 +270,7 @@ impl<'a> Lexer<'a> {
         loop {
             match self.get_char() {
                 None => {
-                    panic!("[Syntax Error]: Unclose comment, start position");
+                    syntax_error!(format!("Unclose comment, start position {}", self.get_start_byte_index()));
                 }
                 Some(_code)=> {
                     if self.start_with("*/") {

@@ -9,14 +9,20 @@
           "type": "Declar",
           "prop": "margin-top",
           "value": "12px",
-          "finish_byte_index": 37,
-          "start_byte_index": 20
+          "span": {
+            "start": 20,
+            "finish": 37
+          }
         }
       ],
-      "finish_byte_index": 39,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 39
+      }
     }
   ],
-  "finish_byte_index": 39,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 39
+  }
 }

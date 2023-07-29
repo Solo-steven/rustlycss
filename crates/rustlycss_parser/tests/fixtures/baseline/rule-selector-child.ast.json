@@ -9,14 +9,20 @@
           "type": "Declar",
           "prop": "display",
           "value": "flex",
-          "finish_byte_index": 37,
-          "start_byte_index": 23
+          "span": {
+            "start": 23,
+            "finish": 37
+          }
         }
       ],
-      "finish_byte_index": 39,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 39
+      }
     }
   ],
-  "finish_byte_index": 39,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 39
+  }
 }

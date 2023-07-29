@@ -13,12 +13,16 @@
               "type": "Declar",
               "prop": "color",
               "value": "red",
-              "finish_byte_index": 46,
-              "start_byte_index": 35
+              "span": {
+                "start": 35,
+                "finish": 46
+              }
             }
           ],
-          "finish_byte_index": 54,
-          "start_byte_index": 17
+          "span": {
+            "start": 17,
+            "finish": 54
+          }
         },
         {
           "type": "Rule",
@@ -28,18 +32,26 @@
               "type": "Declar",
               "prop": "color",
               "value": "blue",
-              "finish_byte_index": 89,
-              "start_byte_index": 77
+              "span": {
+                "start": 77,
+                "finish": 89
+              }
             }
           ],
-          "finish_byte_index": 95,
-          "start_byte_index": 59
+          "span": {
+            "start": 59,
+            "finish": 95
+          }
         }
       ],
-      "finish_byte_index": 97,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 97
+      }
     }
   ],
-  "finish_byte_index": 97,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 97
+  }
 }

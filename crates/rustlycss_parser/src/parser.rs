@@ -1,6 +1,8 @@
 use std::borrow::Cow;
 use crate::lexer::Lexer;
+use crate::syntax_error;
 use rustlycss_types::token::Token;
+use rustlycss_types::position::Span;
 use rustlycss_types::ast::*;
 
 pub struct Parser<'source_str> {
@@ -19,12 +21,8 @@ impl<'source_str> Parser <'source_str> {
         let mut token = self.lexer.next_token();
         loop {
             match token {
-                Token::Comment => {
-                    token = self.lexer.next_token();
-                }
-                _ => {
-                    return token;
-                }
+                Token::Comment => token = self.lexer.next_token(),
+                _ => return token
             }
         }
     }
@@ -34,12 +32,8 @@ impl<'source_str> Parser <'source_str> {
         let mut token = self.lexer.get_token();
         loop {
             match token {
-                Token::Comment | Token::Start => {
-                    token = self.lexer.next_token();
-                }
-                _ => {
-                    return token;
-                }
+                Token::Comment | Token::Start => token = self.lexer.next_token(),
+                _ => return token,
             }
         }
     }
@@ -87,7 +81,7 @@ impl<'source_str> Parser <'source_str> {
             }
         }
         let finish_byte_index = self.get_finish_byte_index();
-        return Root { nodes, start_byte_index: 0, finish_byte_index }
+        return Root { nodes, span: Span::from(0 , finish_byte_index) }
     }
     fn parse_at_rule(&mut self) -> AtRule<'source_str> {
         let start_byte_index: usize;
@@ -98,7 +92,7 @@ impl<'source_str> Parser <'source_str> {
                 self.next_token();
             }
             _ => {
-                panic!("at rule must start with @ char");
+                syntax_error!("at rule must start with @ char");
             }
         }
         let name = self.parse_at_rule_name();
@@ -109,7 +103,7 @@ impl<'source_str> Parser <'source_str> {
             Token::Semi => {
                 finish_byte_index = self.get_finish_byte_index();
                 self.next_token();
-                return AtRule { name, param, nodes, start_byte_index, finish_byte_index };
+                return AtRule { name, param, nodes, span: Span::from(start_byte_index, finish_byte_index)};
             }
             Token::BracesLeft => {/* fullover */}
             _ => {
@@ -126,7 +120,7 @@ impl<'source_str> Parser <'source_str> {
                 nodes = None;
             }
         }
-        return AtRule { name, param, nodes, start_byte_index, finish_byte_index};
+        return AtRule { name, param, nodes, span: Span::from(start_byte_index, finish_byte_index)};
     }
     #[inline]
     fn parse_at_rule_name(&mut self) -> Cow<'source_str, str> {
@@ -180,7 +174,7 @@ impl<'source_str> Parser <'source_str> {
                 self.next_token();
             }
             _ => {
-                panic!("nodes must wrap in braces");
+                syntax_error!("nodes must wrap in braces");
             }
         }
         let mut nodes = Vec::<Child>::new();
@@ -207,7 +201,7 @@ impl<'source_str> Parser <'source_str> {
                 self.next_token();
             }
             _ => {
-                panic!("nodes must wrap in braces");
+                syntax_error!("nodes must wrap in braces");
             }
         }
         return nodes;
@@ -287,13 +281,12 @@ impl<'source_str> Parser <'source_str> {
                         self.next_token();
                     }
                     if is_space_or_newline_between {
-                        panic!("[Syntax Error]: Declaration prop can not have space or new line.");
+                        syntax_error!("Declaration prop can not have space or new line");
                     }
                     return Child::Declar(Declaration { 
                         prop: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_prop_or_selector,end_index_of_prop_or_selector)),
                         value: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_value, end_index_of_value_or_selector)),
-                        start_byte_index: start_index_of_prop_or_selector,
-                        finish_byte_index: self.get_start_byte_index(),
+                        span: Span::from(start_index_of_prop_or_selector, self.get_start_byte_index())
                     });
                 }
                 Token::NewLine | Token::Space => {
@@ -319,12 +312,11 @@ impl<'source_str> Parser <'source_str> {
                 Rule { 
                     selector,
                     nodes, 
-                    start_byte_index,
-                    finish_byte_index: self.get_start_byte_index(),
+                    span: Span::from(start_byte_index, self.get_start_byte_index()),
                  }
             }
             _ => {
-                panic!("rule must have brace " );
+                syntax_error!("rule must have brace");
             }
         }
     }

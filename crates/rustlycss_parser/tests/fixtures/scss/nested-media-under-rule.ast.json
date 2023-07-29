@@ -14,19 +14,25 @@
               "type": "Declar",
               "prop": "height",
               "value": "100px",
-              "finish_byte_index": 79,
-              "start_byte_index": 65
+              "span": {
+                "start": 65,
+                "finish": 79
+              }
             },
             {
               "type": "Declar",
               "prop": "width",
               "value": "200px",
-              "finish_byte_index": 105,
-              "start_byte_index": 88
+              "span": {
+                "start": 88,
+                "finish": 105
+              }
             }
           ],
-          "finish_byte_index": 106,
-          "start_byte_index": 17
+          "span": {
+            "start": 17,
+            "finish": 106
+          }
         },
         {
           "type": "Rule",
@@ -41,22 +47,32 @@
                   "type": "Declar",
                   "prop": "height",
                   "value": "400px",
-                  "finish_byte_index": 189,
-                  "start_byte_index": 175
+                  "span": {
+                    "start": 175,
+                    "finish": 189
+                  }
                 }
               ],
-              "finish_byte_index": 199,
-              "start_byte_index": 131
+              "span": {
+                "start": 131,
+                "finish": 199
+              }
             }
           ],
-          "finish_byte_index": 205,
-          "start_byte_index": 111
+          "span": {
+            "start": 111,
+            "finish": 205
+          }
         }
       ],
-      "finish_byte_index": 207,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 207
+      }
     }
   ],
-  "finish_byte_index": 207,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 207
+  }
 }

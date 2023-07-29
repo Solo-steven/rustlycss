@@ -10,21 +10,29 @@
           "type": "Declar",
           "prop": "color",
           "value": "red",
-          "finish_byte_index": 54,
-          "start_byte_index": 43
+          "span": {
+            "start": 43,
+            "finish": 54
+          }
         },
         {
           "type": "Declar",
           "prop": "font-size",
           "value": "14px",
-          "finish_byte_index": 75,
-          "start_byte_index": 59
+          "span": {
+            "start": 59,
+            "finish": 75
+          }
         }
       ],
-      "finish_byte_index": 77,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 77
+      }
     }
   ],
-  "finish_byte_index": 77,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 77
+  }
 }

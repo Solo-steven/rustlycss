@@ -9,14 +9,20 @@
           "type": "Declar",
           "prop": "color",
           "value": "red",
-          "finish_byte_index": 30,
-          "start_byte_index": 19
+          "span": {
+            "start": 19,
+            "finish": 30
+          }
         }
       ],
-      "finish_byte_index": 32,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 32
+      }
     }
   ],
-  "finish_byte_index": 32,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 32
+  }
 }

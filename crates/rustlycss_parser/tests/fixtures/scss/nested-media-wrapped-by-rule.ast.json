@@ -14,8 +14,10 @@
               "type": "Declar",
               "prop": "color",
               "value": "red",
-              "finish_byte_index": 84,
-              "start_byte_index": 73
+              "span": {
+                "start": 73,
+                "finish": 84
+              }
             },
             {
               "type": "AtRule",
@@ -26,16 +28,22 @@
                   "type": "Declar",
                   "prop": "display",
                   "value": "flex",
-                  "finish_byte_index": 158,
-                  "start_byte_index": 144
+                  "span": {
+                    "start": 144,
+                    "finish": 158
+                  }
                 }
               ],
-              "finish_byte_index": 168,
-              "start_byte_index": 93
+              "span": {
+                "start": 93,
+                "finish": 168
+              }
             }
           ],
-          "finish_byte_index": 174,
-          "start_byte_index": 25
+          "span": {
+            "start": 25,
+            "finish": 174
+          }
         },
         {
           "type": "Rule",
@@ -45,18 +53,26 @@
               "type": "Declar",
               "prop": "font-size",
               "value": "14px",
-              "finish_byte_index": 216,
-              "start_byte_index": 200
+              "span": {
+                "start": 200,
+                "finish": 216
+              }
             }
           ],
-          "finish_byte_index": 222,
-          "start_byte_index": 179
+          "span": {
+            "start": 179,
+            "finish": 222
+          }
         }
       ],
-      "finish_byte_index": 224,
-      "start_byte_index": 0
+      "span": {
+        "start": 0,
+        "finish": 224
+      }
     }
   ],
-  "finish_byte_index": 224,
-  "start_byte_index": 0
+  "span": {
+    "start": 0,
+    "finish": 224
+  }
 }
