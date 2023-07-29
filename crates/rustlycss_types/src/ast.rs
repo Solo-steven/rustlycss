@@ -27,7 +27,7 @@ pub struct AtRule<'a> {
 }
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
-// #[serde(tag = "type")]
+#[serde(tag = "type")]
 pub enum Child<'a> {
     AtRule(AtRule<'a>),
     #[serde(borrow)]
@@ -35,6 +35,7 @@ pub enum Child<'a> {
     Declar(Declaration<'a>)
 }
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
+#[serde(tag = "type")]
 pub struct Root<'a> {
     #[serde(borrow)]
     pub nodes: Vec<Child<'a>>,

@@ -1,0 +1,30 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "AtRule",
+      "name": "meida",
+      "param": "screen and (max-width: 500px)",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "color",
+          "value": "red",
+          "finish_byte_index": 54,
+          "start_byte_index": 43
+        },
+        {
+          "type": "Declar",
+          "prop": "font-size",
+          "value": "14px",
+          "finish_byte_index": 75,
+          "start_byte_index": 59
+        }
+      ],
+      "finish_byte_index": 77,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 77,
+  "start_byte_index": 0
+}

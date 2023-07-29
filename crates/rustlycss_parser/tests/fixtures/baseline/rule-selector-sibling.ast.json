@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".item ~ .item",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "margin-top",
+          "value": "12px",
+          "finish_byte_index": 37,
+          "start_byte_index": 20
+        }
+      ],
+      "finish_byte_index": 39,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 39,
+  "start_byte_index": 0
+}

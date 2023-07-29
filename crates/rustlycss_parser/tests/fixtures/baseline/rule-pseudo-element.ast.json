@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".test::after",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "content",
+          "value": "\" \"",
+          "finish_byte_index": 32,
+          "start_byte_index": 19
+        }
+      ],
+      "finish_byte_index": 34,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 34,
+  "start_byte_index": 0
+}

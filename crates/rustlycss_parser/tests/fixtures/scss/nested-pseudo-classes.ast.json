@@ -1,0 +1,45 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".container",
+      "nodes": [
+        {
+          "type": "Rule",
+          "selector": "&:hover",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "color",
+              "value": "red",
+              "finish_byte_index": 46,
+              "start_byte_index": 35
+            }
+          ],
+          "finish_byte_index": 54,
+          "start_byte_index": 17
+        },
+        {
+          "type": "Rule",
+          "selector": "&_color",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "color",
+              "value": "blue",
+              "finish_byte_index": 89,
+              "start_byte_index": 77
+            }
+          ],
+          "finish_byte_index": 95,
+          "start_byte_index": 59
+        }
+      ],
+      "finish_byte_index": 97,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 97,
+  "start_byte_index": 0
+}

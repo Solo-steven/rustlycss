@@ -57,12 +57,8 @@ impl<'source_str> Parser <'source_str> {
     fn skip_changeline_and_space(& mut self) {
         loop {
             match self.get_token() {
-                Token::NewLine | Token::Space  => {
-                    self.next_token();
-                }
-                _ => {
-                    break;
-                }
+                Token::NewLine | Token::Space  => self.next_token(),
+                _ => break 
             };
         }
     }
@@ -81,6 +77,9 @@ impl<'source_str> Parser <'source_str> {
                 }
                 Token::At => {
                     nodes.push(Child::AtRule(self.parse_at_rule()))
+                }
+                Token::Semi => {
+                    self.next_token();
                 }
                 _ => {
                     nodes.push(self.parse_declar_or_rule());
@@ -192,6 +191,9 @@ impl<'source_str> Parser <'source_str> {
                 Token::EOF | Token::BracesRight => {
                     break;
                 }
+                Token::Semi => {
+                    self.next_token();
+                }
                 Token::At => {
                     nodes.push(Child::AtRule(self.parse_at_rule()))
                 }
@@ -210,128 +212,104 @@ impl<'source_str> Parser <'source_str> {
         }
         return nodes;
     }
+    // this function only call in `parse_nodes_in_braces` and `parse_root` parse loop
+    // after `skip_changeline_and_space`, so frist token in this function main loop 
+    // is not change and space
     #[inline]
     fn parse_declar_or_rule(&mut self) -> Child<'source_str> {
-        // name would be declaration prop or select, start with start_position.index, end with end_of_name.
-        let mut start_index_of_name: Option<usize> = None;
-        let mut end_index_of_name: usize = 0;
-        let mut is_start_flag = false;
+        let start_index_of_name = self.get_start_byte_index();
+        let mut end_index_of_name: usize = self.get_finish_byte_index();
         let mut is_space_or_changeline_between = false;
-        let mut is_space_or_newline = false;
         loop {
             match self.get_token() {
                 Token::Colon  => {
-                    // maybe selector start with colon (:root)
-                    // maybe selector has colon (.class:hover)
-                    // maybe is declaration ()
-                    return self.parse_start_with_colon(start_index_of_name, is_space_or_newline, end_index_of_name);
+                    return self.parse_start_with_colon(
+                        start_index_of_name,
+                        end_index_of_name,
+                        is_space_or_changeline_between, 
+                    );
                 }
                 Token::BracesLeft => {
-                    match start_index_of_name {
-                        Some(start_index_not_none) => {
-                            let selector = self.lexer.get_sub_str(start_index_not_none, end_index_of_name);
-                            return Child::Rule(self.parse_rule_with_selector( 
-                                Cow::Borrowed(selector),
-                                start_index_not_none
-                            ));
-                        }
-                        None => {
-                            let start_index_not_none = self.get_start_byte_index();
-                            let selector = self.lexer.get_sub_str(start_index_not_none, start_index_not_none);
-                            return Child::Rule(self.parse_rule_with_selector(
-                                Cow::Borrowed(selector),
-                                start_index_not_none,
-                            ));
-                        }
-                    }
+                    return Child::Rule(self.parse_rule_with_selector(
+                        Cow::Borrowed(self.lexer.get_sub_str(start_index_of_name,end_index_of_name)),
+                        start_index_of_name,
+                    ));
                 }
                 Token::NewLine | Token::Space => {
-                    if is_start_flag {
-                        is_space_or_changeline_between = true;
-                    }
+                    is_space_or_changeline_between = true;
                     self.next_token();
                 }
                 _ => {
-                    match start_index_of_name {
-                        None => { start_index_of_name = Some(self.get_start_byte_index()) }
-                        Some(_) => {}
-                    }
-                    if is_start_flag && is_space_or_changeline_between {
-                        is_space_or_newline = true;
-                    }
+
+                    end_index_of_name = self.get_finish_byte_index();
                     self.next_token();
-                    end_index_of_name = self.get_start_byte_index();
-                    is_start_flag = true;
                 }
             }
         }
     }
-    // start with colon maybe is
+    // start with colon maybe is have below three condition occur. with two format
+    // frist  format <>:<>;, end with semi, have to be a declaration
+    // second format <>:<>{, end with BracesLeft, have to be a rule.
     // 1. selector start with colon: `:root`
     // 2. selector have colon: `.some-class:hover`
     // 3. declaration: `color: blue`
-    fn parse_start_with_colon(&mut self, mut start_byte_index : Option<usize>, is_space_or_newline: bool, maybe_end_index_of_prop: usize) -> Child<'source_str> {
-        let finish_byte_index: usize;
+    // so this function loop with end when meet BracesLeft or semi.
+    fn parse_start_with_colon(
+        &mut self, 
+        start_index_of_prop_or_selector :usize , 
+        end_index_of_prop_or_selector: usize, 
+        is_space_or_newline_between: bool
+    ) -> Child<'source_str> {
+        // should start with colon
         match self.get_token() {
-            Token::Colon => {
-                match start_byte_index {
-                    Some(_) => {},
-                    None => {
-                        start_byte_index = Some(self.get_start_byte_index());
-                    }
-                }
-                self.next_token();
-            }
-            _ => {
-                panic!("Declaration must have colon");
-            }
-        }
-        let mut is_start_flag = false;
-        let mut start_index_of_value: usize = 0; 
-        let mut end_index_of_selector_or_value: usize = 0;
+            Token::Colon => self.next_token(),
+            _ => panic!("[Internal Error]: parse_start_with_colon_should start with colon token.")
+        };
+        // start function loop with any char after colon, so may be changeline and space, so 
+        // we need a flag to determinate when to init start_byte_index 's value.
+        let mut is_start_not_changeline_and_space = false;
+        let mut start_index_of_value: usize = self.get_start_byte_index();
+        let mut end_index_of_value_or_selector: usize = self.get_start_byte_index();
         loop {
-            match self.get_token() {
-                Token::BracesLeft | Token::BracesRight => {
-                    let selector =self.lexer.get_sub_str(start_index_of_value ,end_index_of_selector_or_value);
+            let token = self.get_token();
+            match token {
+                Token::BracesLeft  => {
                     return Child::Rule(self.parse_rule_with_selector( 
-                        Cow::Borrowed(selector),
-                        self.get_start_byte_index(),
+                        Cow::Borrowed(self.lexer.get_sub_str(
+                            start_index_of_prop_or_selector,
+                            end_index_of_value_or_selector,
+                        )),
+                        start_index_of_prop_or_selector,
                     ));
                 }
-                Token::Semi => {
-                    break;
+                Token::Semi | Token::BracesRight => {
+                    if token == Token::Semi {
+                        self.next_token();
+                    }
+                    if is_space_or_newline_between {
+                        panic!("[Syntax Error]: Declaration prop can not have space or new line.");
+                    }
+                    return Child::Declar(Declaration { 
+                        prop: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_prop_or_selector,end_index_of_prop_or_selector)),
+                        value: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_value, end_index_of_value_or_selector)),
+                        start_byte_index: start_index_of_prop_or_selector,
+                        finish_byte_index: self.get_start_byte_index(),
+                    });
                 }
                 Token::NewLine | Token::Space => {
                     self.next_token();
                 }
                 _ => {
-                    if !is_start_flag {
-                        is_start_flag = true;
+                    if is_start_not_changeline_and_space == false {
+                        is_start_not_changeline_and_space = true;
                         start_index_of_value = self.get_start_byte_index();
                     }
-                    end_index_of_selector_or_value = self.get_finish_byte_index();
+                    end_index_of_value_or_selector = self.get_finish_byte_index();
                     self.next_token();
                 }
             }
         }
-        match self.get_token() {
-            Token::Semi => {
-                finish_byte_index = self.get_finish_byte_index();
-                self.next_token();
-            }
-            _ => {
-                panic!("Declaration must end with semi");
-            }
-        }
-        if is_space_or_newline {
-            panic!("Declaration prop can not have space or new line");
-        }
-        return Child::Declar(Declaration { 
-            prop: Cow::Borrowed(self.lexer.get_sub_str(start_byte_index.unwrap(),maybe_end_index_of_prop)),
-            value: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_value, end_index_of_selector_or_value)),
-            start_byte_index: start_byte_index.unwrap(),
-            finish_byte_index 
-        });
+        // parse declaration end
     }
     #[inline]
     fn parse_rule_with_selector(&mut self, selector: Cow<'source_str, str>, start_byte_index: usize) -> Rule<'source_str> {
@@ -342,7 +320,7 @@ impl<'source_str> Parser <'source_str> {
                     selector,
                     nodes, 
                     start_byte_index,
-                    finish_byte_index: self.get_finish_byte_index(),
+                    finish_byte_index: self.get_start_byte_index(),
                  }
             }
             _ => {

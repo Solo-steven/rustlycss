@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".test",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "content",
+          "value": "\"萬國字串\"",
+          "finish_byte_index": 36,
+          "start_byte_index": 12
+        }
+      ],
+      "finish_byte_index": 37,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 37,
+  "start_byte_index": 0
+}

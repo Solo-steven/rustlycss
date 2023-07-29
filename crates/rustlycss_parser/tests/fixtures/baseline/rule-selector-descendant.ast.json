@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".container .item",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "flex",
+          "value": "1",
+          "finish_byte_index": 31,
+          "start_byte_index": 23
+        }
+      ],
+      "finish_byte_index": 33,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 33,
+  "start_byte_index": 0
+}

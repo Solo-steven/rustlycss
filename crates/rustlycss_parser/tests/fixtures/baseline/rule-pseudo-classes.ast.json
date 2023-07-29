@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".class:hover",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "color",
+          "value": "red",
+          "finish_byte_index": 30,
+          "start_byte_index": 19
+        }
+      ],
+      "finish_byte_index": 32,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 32,
+  "start_byte_index": 0
+}

@@ -1,0 +1,46 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "AtRule",
+      "name": "keyframes",
+      "param": "animation",
+      "nodes": [
+        {
+          "type": "Rule",
+          "selector": "0%",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "bottom",
+              "value": "0px",
+              "finish_byte_index": 51,
+              "start_byte_index": 39
+            }
+          ],
+          "finish_byte_index": 57,
+          "start_byte_index": 27
+        },
+        {
+          "type": "Rule",
+          "selector": "100%",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "top",
+              "value": "100px",
+              "finish_byte_index": 88,
+              "start_byte_index": 77
+            }
+          ],
+          "finish_byte_index": 94,
+          "start_byte_index": 62
+        }
+      ],
+      "finish_byte_index": 96,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 96,
+  "start_byte_index": 0
+}

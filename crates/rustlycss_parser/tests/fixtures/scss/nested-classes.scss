@@ -1,0 +1,8 @@
+.contaniner {
+    & > .item {
+        flex: 1;
+    }
+    &__color {
+        color: red;
+    }
+}

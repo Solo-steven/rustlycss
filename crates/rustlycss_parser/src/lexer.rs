@@ -1,3 +1,4 @@
+use rustlycss_types::position::Position;
 use rustlycss_types::token::*;
 use std::borrow::BorrowMut;
 use std::str::CharIndices;
@@ -15,7 +16,7 @@ pub struct Lexer<'a> {
 
     token: Token,
 
-    // pos: Position,
+    pos: Position,
     // start_pos: Position,
     // finish_pos: Position,
 }
@@ -32,7 +33,7 @@ impl<'a> Lexer<'a> {
             start_byte_index: 0,
             finish_byte_index: 0,
             token: Token::Start, 
-            // pos: Position::new(),
+            pos: Position::new(),
             // start_pos: Position::new(), 
             // finish_pos: Position::new(),
         }
@@ -64,7 +65,7 @@ impl<'a> Lexer<'a> {
                     //         self.pos.col += 1;
                     //     }
                     // }
-                    // self.pos.index +=1;
+                    self.pos.index +=1;
                     n -= 1;
                     match self.iter.next() {
                         Some(tuple) => {

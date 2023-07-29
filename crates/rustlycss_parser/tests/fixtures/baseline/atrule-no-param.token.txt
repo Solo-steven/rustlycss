@@ -1,0 +1,4 @@
+[TOKEN: At, value: "@", start: 0, finish: 1]
+[TOKEN: Word, value: "at-rule", start: 1, finish: 8]
+[TOKEN: Semi, value: ";", start: 8, finish: 9]
+[TOKEN: EOF, value: "", start: 9, finish: 9]

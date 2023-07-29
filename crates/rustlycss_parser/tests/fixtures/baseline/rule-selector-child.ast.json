@@ -1,0 +1,22 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".father > .child",
+      "nodes": [
+        {
+          "type": "Declar",
+          "prop": "display",
+          "value": "flex",
+          "finish_byte_index": 37,
+          "start_byte_index": 23
+        }
+      ],
+      "finish_byte_index": 39,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 39,
+  "start_byte_index": 0
+}

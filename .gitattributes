@@ -1,2 +1,3 @@
 *.css linguist-generated=true
+*.scss
 *.ast.json

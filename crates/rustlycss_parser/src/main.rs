@@ -29,20 +29,19 @@ fn to_tokens(code: &str) {
 }
 
 fn main() {
-    let code = "
-        @keyframe {
-            0% {
-
+    let code = r#"
+        .container {
+            @media screen and (max-width: 1280px) {
+                height: 100px;
+                width: 200px
             }
-            100% {
-
+            & > .item {
+                @media screen and (max-width) {
+                    height: 400px;
+                }
             }
         }
-        .test {
-            color: red;
-        }
-
-    ";
+    "#;
     // let mut lexer = Lexer::new(BIG_FILE_STR);
     to_tokens(code);
     let mut parser = Parser::new(code);

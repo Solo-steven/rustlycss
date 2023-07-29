@@ -1,0 +1,62 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": "#some-namespace-id",
+      "nodes": [
+        {
+          "type": "AtRule",
+          "name": "media",
+          "param": "screen and (max-width: 1200px)",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "color",
+              "value": "red",
+              "finish_byte_index": 84,
+              "start_byte_index": 73
+            },
+            {
+              "type": "AtRule",
+              "name": "media",
+              "param": "screen and (max-width: 500px)",
+              "nodes": [
+                {
+                  "type": "Declar",
+                  "prop": "display",
+                  "value": "flex",
+                  "finish_byte_index": 158,
+                  "start_byte_index": 144
+                }
+              ],
+              "finish_byte_index": 168,
+              "start_byte_index": 93
+            }
+          ],
+          "finish_byte_index": 174,
+          "start_byte_index": 25
+        },
+        {
+          "type": "Rule",
+          "selector": ".container",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "font-size",
+              "value": "14px",
+              "finish_byte_index": 216,
+              "start_byte_index": 200
+            }
+          ],
+          "finish_byte_index": 222,
+          "start_byte_index": 179
+        }
+      ],
+      "finish_byte_index": 224,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 224,
+  "start_byte_index": 0
+}

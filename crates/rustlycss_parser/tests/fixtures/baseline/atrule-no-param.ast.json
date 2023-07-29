@@ -1,0 +1,15 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "AtRule",
+      "name": "at-rule",
+      "param": null,
+      "nodes": null,
+      "finish_byte_index": 9,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 9,
+  "start_byte_index": 0
+}

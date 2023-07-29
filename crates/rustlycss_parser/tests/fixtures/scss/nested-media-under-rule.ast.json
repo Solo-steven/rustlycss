@@ -1,0 +1,62 @@
+{
+  "type": "Root",
+  "nodes": [
+    {
+      "type": "Rule",
+      "selector": ".container",
+      "nodes": [
+        {
+          "type": "AtRule",
+          "name": "media",
+          "param": "screen and (max-width: 1280px)",
+          "nodes": [
+            {
+              "type": "Declar",
+              "prop": "height",
+              "value": "100px",
+              "finish_byte_index": 79,
+              "start_byte_index": 65
+            },
+            {
+              "type": "Declar",
+              "prop": "width",
+              "value": "200px",
+              "finish_byte_index": 105,
+              "start_byte_index": 88
+            }
+          ],
+          "finish_byte_index": 106,
+          "start_byte_index": 17
+        },
+        {
+          "type": "Rule",
+          "selector": "& > .item",
+          "nodes": [
+            {
+              "type": "AtRule",
+              "name": "media",
+              "param": "screen and (max-width)",
+              "nodes": [
+                {
+                  "type": "Declar",
+                  "prop": "height",
+                  "value": "400px",
+                  "finish_byte_index": 189,
+                  "start_byte_index": 175
+                }
+              ],
+              "finish_byte_index": 199,
+              "start_byte_index": 131
+            }
+          ],
+          "finish_byte_index": 205,
+          "start_byte_index": 111
+        }
+      ],
+      "finish_byte_index": 207,
+      "start_byte_index": 0
+    }
+  ],
+  "finish_byte_index": 207,
+  "start_byte_index": 0
+}

@@ -1,0 +1,4 @@
+@meida screen and (max-width: 500px) {
+    color: red;
+    font-size: 14px;
+}

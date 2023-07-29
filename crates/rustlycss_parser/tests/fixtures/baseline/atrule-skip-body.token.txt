@@ -1,0 +1,6 @@
+[TOKEN: At, value: "@", start: 0, finish: 1]
+[TOKEN: Word, value: "charset", start: 1, finish: 8]
+[TOKEN: Space, value: " ", start: 8, finish: 9]
+[TOKEN: StringLiteral, value: "\"UTF-8\"", start: 9, finish: 16]
+[TOKEN: Semi, value: ";", start: 16, finish: 17]
+[TOKEN: EOF, value: "", start: 17, finish: 17]

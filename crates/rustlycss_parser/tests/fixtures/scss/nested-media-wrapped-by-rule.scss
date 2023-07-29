@@ -1,0 +1,11 @@
+#some-namespace-id {
+    @media screen and (max-width: 1200px) {
+        color: red;
+        @media screen and (max-width: 500px) {
+            display: flex;
+        }
+    }
+    .container {
+        font-size: 14px;
+    }
+}
