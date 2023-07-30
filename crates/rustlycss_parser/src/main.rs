@@ -3,6 +3,7 @@ pub mod parser;
 mod marco;
 
 use rustlycss_types::token::Token;
+use rustlycss_types::config::GeneralConfig;
 use rustlycss_types::visitor::{Visitor, Walkable};
 use rustlycss_parser::lexer::Lexer;
 use rustlycss_parser::parser::Parser;
@@ -14,7 +15,8 @@ const TINR_SCSS_FILE: &str = include_str!("../../../assets/nested-tiny.scss");
 
 
 fn to_tokens(code: &str) {
-    let mut lexer = Lexer::new(code);
+    let config = GeneralConfig::from(true, false);
+    let mut lexer = Lexer::new(code, &config);
     loop {
         let t = lexer.next_token();
         match t {
@@ -30,6 +32,7 @@ fn to_tokens(code: &str) {
 }
 
 fn main() {
+    let config = GeneralConfig::from(true, false);
     let code = r#"
         .container {
             @media screen and (max-width: 1280px) {
@@ -43,9 +46,8 @@ fn main() {
             }
         }
     "#;
-    // let mut lexer = Lexer::new(BIG_FILE_STR);
     to_tokens(code);
-    let mut parser = Parser::new(code);
+    let mut parser = Parser::new(code, &config);
     let root = parser.parse();
     println!("{:?}", root);
 }

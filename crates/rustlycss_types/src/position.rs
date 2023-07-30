@@ -1,15 +1,31 @@
 use serde_derive::{Deserialize, Serialize};
-// position should be immutable
+
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 pub struct Position {
     pub col: usize,
     pub row: usize,
-    pub index: usize
 }
 
 impl Position {
     pub fn new() -> Self {
-        Position { col: 1, row: 1, index: 0 }
+        Position { col: 0, row: 0}
+    }
+    pub fn from(row: usize, col: usize) -> Self {
+        Position { row, col }
+    }
+}
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
+pub struct Location {
+    pub start: Position,
+    pub finish: Position,
+}
+
+impl Location {
+    pub fn new() -> Self {
+        Self { start: Position::new(), finish: Position::new() }
+    }
+    pub fn from(start: Position, finish: Position) -> Self {
+        Self { start, finish }
     }
 }
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]

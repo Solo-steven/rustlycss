@@ -1,12 +1,14 @@
 use rustlycss_types::position::Position;
-use crate::syntax_error;
+use rustlycss_types::config::GeneralConfig;
 use rustlycss_types::token::*;
 use std::borrow::BorrowMut;
 use std::str::CharIndices;
+use crate::syntax_error;
 
 pub struct Lexer<'a> {
 
     source: &'a str,
+    _config: &'a GeneralConfig,
 
     iter: CharIndices<'a>,
     iter_char: Option<char>,
@@ -18,16 +20,17 @@ pub struct Lexer<'a> {
     token: Token,
 
     pos: Position,
-    // start_pos: Position,
-    // finish_pos: Position,
+    start_pos: Position,
+    finish_pos: Position,
 }
 
 impl<'a> Lexer<'a> {
-    pub fn new(source: &'a str) -> Self {
+    pub fn new(source: &'a str, config: &'a GeneralConfig) -> Self {
         let mut iter = source.char_indices();
         let frist_tuple = iter.borrow_mut().next();
         Lexer { 
             source, 
+            _config: config,
             iter, 
             iter_char: Some(frist_tuple.as_ref().unwrap().1), 
             iter_byte_index: frist_tuple.unwrap().0, 
@@ -35,8 +38,8 @@ impl<'a> Lexer<'a> {
             finish_byte_index: 0,
             token: Token::Start, 
             pos: Position::new(),
-            // start_pos: Position::new(), 
-            // finish_pos: Position::new(),
+            start_pos: Position::new(), 
+            finish_pos: Position::new(),
         }
     }
     #[inline]
@@ -53,20 +56,19 @@ impl<'a> Lexer<'a> {
                 None => {
                     break;
                 }
-                Some(_code) => {
+                Some(code) => {
                     /*
                        TODO: performance impact
                      */
-                    // match code {
-                    //     '\n' => {
-                    //         self.pos.col = 0;
-                    //         self.pos.row += 1; 
-                    //     }
-                    //     _ => {
-                    //         self.pos.col += 1;
-                    //     }
-                    // }
-                    self.pos.index +=1;
+                    match code {
+                        '\n' => {
+                            self.pos.col = 0;
+                            self.pos.row += 1; 
+                        }
+                        _ => {
+                            self.pos.col += 1;
+                        }
+                    }
                     n -= 1;
                     match self.iter.next() {
                         Some(tuple) => {
@@ -89,19 +91,19 @@ impl<'a> Lexer<'a> {
     #[inline]
     fn start_token(&mut self) {
         self.start_byte_index = self.iter_byte_index;
-        // self.start_pos = self.pos.clone();
+        self.start_pos = self.pos.clone();
     }
     #[inline]
     fn finish_token(&mut self) {
         self.finish_byte_index = self.iter_byte_index;
-        // self.finish_pos = self.pos.clone();
+        self.finish_pos = self.pos.clone();
     }
-    // pub fn get_start_pos(&self)-> Position {
-    //     self.start_pos.clone()
-    // }
-    // pub fn get_finish_pos(&self) -> Position {
-    //     self.finish_pos.clone()
-    // }
+    pub fn get_start_pos(&self)-> Position {
+        self.start_pos.clone()
+    }
+    pub fn get_finish_pos(&self) -> Position {
+        self.finish_pos.clone()
+    }
     pub fn get_start_byte_index(&self) -> usize {
         self.start_byte_index
     }

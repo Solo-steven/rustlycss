@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod test {
     use rustlycss_parser::lexer::Lexer;
+    use rustlycss_types::config::GeneralConfig;
     use rustlycss_types::token::Token;
     use std::fs::{File, read_to_string};
     use std::io::Write;
@@ -9,6 +10,7 @@ mod test {
         ($path: expr ) => {
             let css_file_path = format!("{}.css", $path);
             let token_file_path = format!("{}.token.txt", $path);
+            let config = GeneralConfig::from(true, false);
             let code =  match read_to_string(css_file_path.as_str()) {
                 Ok(file) => {
                     file
@@ -17,7 +19,7 @@ mod test {
                     panic!("failed to open css test file. {}", reason);
                 }
             };
-            let mut lexer = Lexer::new(code.as_str());
+            let mut lexer = Lexer::new(code.as_str(), &config);
             let mut token_string = String::new();
             loop {
                 let t = lexer.next_token();

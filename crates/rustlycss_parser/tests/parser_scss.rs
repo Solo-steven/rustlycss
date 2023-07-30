@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod test {
     use rustlycss_parser::parser::Parser;
+    use rustlycss_types::config::GeneralConfig;
     use std::fs::{File, read_to_string};
     use std::io::Write;
     use serde_json::to_string_pretty;
@@ -9,6 +10,7 @@ mod test {
         ($path: expr ) => {
             let css_file_path = format!("{}.scss", $path);
             let ast_file_path = format!("{}.ast.json", $path);
+            let config = GeneralConfig::from(true, false);
             let code =  match read_to_string(css_file_path.as_str()) {
                 Ok(file) => {
                     file
@@ -17,7 +19,7 @@ mod test {
                     panic!("failed to open scss test file. {}", reason);
                 }
             };
-            let mut parser = Parser::new(code.as_str());
+            let mut parser = Parser::new(code.as_str(), &config);
             let root = parser.parse();
             let result_ast = to_string_pretty(&root).unwrap();
     

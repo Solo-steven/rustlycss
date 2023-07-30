@@ -1,18 +1,22 @@
-use std::borrow::Cow;
-use crate::lexer::Lexer;
-use crate::syntax_error;
-use rustlycss_types::token::Token;
-use rustlycss_types::position::Span;
-use rustlycss_types::ast::*;
 
-pub struct Parser<'source_str> {
-    lexer: Lexer<'source_str>,
+use rustlycss_types::token::Token;
+use rustlycss_types::position::{Span, Position, Location};
+use rustlycss_types::config::GeneralConfig;
+use rustlycss_types::ast::*;
+use std::borrow::Cow;
+use crate::syntax_error;
+use crate::lexer::Lexer;
+
+pub struct Parser<'a> {
+    lexer: Lexer<'a>,
+    _config: &'a GeneralConfig,
 }
 
-impl<'source_str> Parser <'source_str> {
-    pub fn new(code:&'source_str str) -> Self {
+impl<'a> Parser <'a> {
+    pub fn new(code:&'a str, config: &'a GeneralConfig) -> Self {
         Parser {
-            lexer: Lexer::new(code),
+            lexer: Lexer::new(code, config),
+            _config: config
         }
     }
     // compsition method for lexer
@@ -47,6 +51,12 @@ impl<'source_str> Parser <'source_str> {
     fn get_finish_byte_index(&self) -> usize {
         self.lexer.get_finish_byte_index()
     }
+    fn get_start_pos(&self) -> Position {
+        self.lexer.get_start_pos()
+    }
+    fn get_finish_pos(&self) -> Position {
+        self.lexer.get_finish_pos()
+    }
     #[inline]
     fn skip_changeline_and_space(& mut self) {
         loop {
@@ -57,12 +67,13 @@ impl<'source_str> Parser <'source_str> {
         }
     }
     #[inline]
-    pub fn parse(&mut self,) -> Root<'source_str> {
+    pub fn parse(&mut self,) -> Root<'a> {
         self.parse_root()
     }
     #[inline]
-    fn parse_root(&mut self) -> Root<'source_str> {
+    fn parse_root(&mut self) -> Root<'a> {
         let mut nodes = Vec::<Child>::new();
+        let start_pos = self.get_start_pos();
         loop {
             self.skip_changeline_and_space();
             match self.get_token() {
@@ -81,14 +92,18 @@ impl<'source_str> Parser <'source_str> {
             }
         }
         let finish_byte_index = self.get_finish_byte_index();
-        return Root { nodes, span: Span::from(0 , finish_byte_index) }
+        let finish_pos = self.get_finish_pos();
+        return Root { nodes, span: Span::from(0 , finish_byte_index), loc: Location::from(start_pos, finish_pos) }
     }
-    fn parse_at_rule(&mut self) -> AtRule<'source_str> {
+    fn parse_at_rule(&mut self) -> AtRule<'a> {
         let start_byte_index: usize;
         let finish_byte_index: usize;
+        let start_pos: Position;
+        let finish_pos: Position;
         match self.get_token() {
             Token::At => {
                 start_byte_index = self.get_start_byte_index();
+                start_pos = self.get_start_pos();
                 self.next_token();
             }
             _ => {
@@ -97,13 +112,18 @@ impl<'source_str> Parser <'source_str> {
         }
         let name = self.parse_at_rule_name();
         self.skip_changeline_and_space();
-        let mut param: Option<Cow<'source_str, str>> = None;
+        let mut param: Option<Cow<'a, str>> = None;
         let mut nodes: Option<Vec<Child<'_>>> = None;
         match self.get_token() {
             Token::Semi => {
                 finish_byte_index = self.get_finish_byte_index();
+                finish_pos = self.get_finish_pos();
                 self.next_token();
-                return AtRule { name, param, nodes, span: Span::from(start_byte_index, finish_byte_index)};
+                return AtRule { 
+                    name, param, nodes, 
+                    span: Span::from(start_byte_index, finish_byte_index),
+                    loc: Location::from(start_pos, finish_pos)
+                };
             }
             Token::BracesLeft => {/* fullover */}
             _ => {
@@ -111,19 +131,19 @@ impl<'source_str> Parser <'source_str> {
             }
         }
         match self.get_token() {
-            Token::BracesLeft => {
-                nodes = Some(self.parse_nodes_in_braces());
-                finish_byte_index = self.get_start_byte_index();
-            }
-            _ => {
-                finish_byte_index = self.get_start_byte_index();
-                nodes = None;
-            }
+            Token::BracesLeft => nodes = Some(self.parse_nodes_in_braces()),
+            _ => nodes = None,
         }
-        return AtRule { name, param, nodes, span: Span::from(start_byte_index, finish_byte_index)};
+        finish_byte_index = self.get_start_byte_index();
+        finish_pos = self.get_finish_pos();
+        return AtRule { 
+            name, param, nodes, 
+            span: Span::from(start_byte_index, finish_byte_index),
+            loc: Location::from(start_pos, finish_pos)
+        };
     }
     #[inline]
-    fn parse_at_rule_name(&mut self) -> Cow<'source_str, str> {
+    fn parse_at_rule_name(&mut self) -> Cow<'a, str> {
         let start_index_of_name = self.get_start_byte_index();
         let mut end_index_of_name : usize  = self.get_start_byte_index();
         loop {
@@ -144,7 +164,7 @@ impl<'source_str> Parser <'source_str> {
         return Cow::Borrowed(self.lexer.get_sub_str(start_index_of_name, end_index_of_name));
     }
     #[inline]
-    fn parse_at_rule_param(&mut self) -> Cow<'source_str, str> {
+    fn parse_at_rule_param(&mut self) -> Cow<'a, str> {
         let start_index_of_param = self.get_start_byte_index();
         let mut end_index_of_param : usize  = self.get_finish_byte_index();
         loop {
@@ -168,7 +188,7 @@ impl<'source_str> Parser <'source_str> {
         return Cow::Borrowed(self.lexer.get_sub_str(start_index_of_param, end_index_of_param));
     }
 
-    fn parse_nodes_in_braces(&mut self) -> Vec<Child<'source_str>> {
+    fn parse_nodes_in_braces(&mut self) -> Vec<Child<'a>> {
         match self.get_token() {
             Token::BracesLeft => {
                 self.next_token();
@@ -210,7 +230,8 @@ impl<'source_str> Parser <'source_str> {
     // after `skip_changeline_and_space`, so frist token in this function main loop 
     // is not change and space
     #[inline]
-    fn parse_declar_or_rule(&mut self) -> Child<'source_str> {
+    fn parse_declar_or_rule(&mut self) -> Child<'a> {
+        let start_pos = self.get_start_pos();
         let start_index_of_name = self.get_start_byte_index();
         let mut end_index_of_name: usize = self.get_finish_byte_index();
         let mut is_space_or_changeline_between = false;
@@ -220,6 +241,7 @@ impl<'source_str> Parser <'source_str> {
                     return self.parse_start_with_colon(
                         start_index_of_name,
                         end_index_of_name,
+                        start_pos,
                         is_space_or_changeline_between, 
                     );
                 }
@@ -227,6 +249,7 @@ impl<'source_str> Parser <'source_str> {
                     return Child::Rule(self.parse_rule_with_selector(
                         Cow::Borrowed(self.lexer.get_sub_str(start_index_of_name,end_index_of_name)),
                         start_index_of_name,
+                        start_pos,
                     ));
                 }
                 Token::NewLine | Token::Space => {
@@ -252,8 +275,9 @@ impl<'source_str> Parser <'source_str> {
         &mut self, 
         start_index_of_prop_or_selector :usize , 
         end_index_of_prop_or_selector: usize, 
+        start_pos: Position,
         is_space_or_newline_between: bool
-    ) -> Child<'source_str> {
+    ) -> Child<'a> {
         // should start with colon
         match self.get_token() {
             Token::Colon => self.next_token(),
@@ -274,6 +298,7 @@ impl<'source_str> Parser <'source_str> {
                             end_index_of_value_or_selector,
                         )),
                         start_index_of_prop_or_selector,
+                        start_pos,
                     ));
                 }
                 Token::Semi | Token::BracesRight => {
@@ -286,7 +311,8 @@ impl<'source_str> Parser <'source_str> {
                     return Child::Declar(Declaration { 
                         prop: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_prop_or_selector,end_index_of_prop_or_selector)),
                         value: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_value, end_index_of_value_or_selector)),
-                        span: Span::from(start_index_of_prop_or_selector, self.get_start_byte_index())
+                        span: Span::from(start_index_of_prop_or_selector, self.get_start_byte_index()),
+                        loc: Location::from(start_pos, self.get_finish_pos())
                     });
                 }
                 Token::NewLine | Token::Space => {
@@ -305,7 +331,7 @@ impl<'source_str> Parser <'source_str> {
         // parse declaration end
     }
     #[inline]
-    fn parse_rule_with_selector(&mut self, selector: Cow<'source_str, str>, start_byte_index: usize) -> Rule<'source_str> {
+    fn parse_rule_with_selector(&mut self, selector: Cow<'a, str>, start_byte_index: usize, start_pos: Position) -> Rule<'a> {
         match self.get_token() {
             Token::BracesLeft => {
                 let nodes = self.parse_nodes_in_braces();
@@ -313,6 +339,7 @@ impl<'source_str> Parser <'source_str> {
                     selector,
                     nodes, 
                     span: Span::from(start_byte_index, self.get_start_byte_index()),
+                    loc: Location::from(start_pos, self.get_finish_pos())
                  }
             }
             _ => {
