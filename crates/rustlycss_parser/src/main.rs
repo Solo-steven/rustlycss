@@ -35,15 +35,7 @@ fn main() {
     let config = GeneralConfig::from(true, false);
     let code = r#"
         .container {
-            @media screen and (max-width: 1280px) {
-                height: 100px;
-                width: 200px
-            }
-            & > .item {
-                @media screen and (max-width) {
-                    height: 400px;
-                }
-            }
+            color: red;
         }
     "#;
     to_tokens(code);

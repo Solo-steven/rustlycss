@@ -13,6 +13,16 @@
           "span": {
             "start": 43,
             "finish": 54
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 1
+            },
+            "finish": {
+              "col": 0,
+              "row": 2
+            }
           }
         },
         {
@@ -22,17 +32,47 @@
           "span": {
             "start": 59,
             "finish": 75
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 2
+            },
+            "finish": {
+              "col": 0,
+              "row": 3
+            }
           }
         }
       ],
       "span": {
         "start": 0,
         "finish": 77
+      },
+      "loc": {
+        "start": {
+          "col": 0,
+          "row": 0
+        },
+        "finish": {
+          "col": 1,
+          "row": 3
+        }
       }
     }
   ],
   "span": {
     "start": 0,
     "finish": 77
+  },
+  "loc": {
+    "start": {
+      "col": 0,
+      "row": 0
+    },
+    "finish": {
+      "col": 1,
+      "row": 3
+    }
   }
 }

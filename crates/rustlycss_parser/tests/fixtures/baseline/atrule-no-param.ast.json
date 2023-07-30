@@ -9,11 +9,31 @@
       "span": {
         "start": 0,
         "finish": 9
+      },
+      "loc": {
+        "start": {
+          "col": 0,
+          "row": 0
+        },
+        "finish": {
+          "col": 9,
+          "row": 0
+        }
       }
     }
   ],
   "span": {
     "start": 0,
     "finish": 9
+  },
+  "loc": {
+    "start": {
+      "col": 0,
+      "row": 0
+    },
+    "finish": {
+      "col": 9,
+      "row": 0
+    }
   }
 }

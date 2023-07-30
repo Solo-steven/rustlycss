@@ -9,7 +9,7 @@ use std::fs::File;
 use std::io::Write;
 
 fn main() {
-    let code = include_str!("../test.scss");
+    let code = "code";
     let config = GeneralConfig::from(false, true);
     let mut parser = Parser::new(code, &config);
     let ast_root = parser.parse();

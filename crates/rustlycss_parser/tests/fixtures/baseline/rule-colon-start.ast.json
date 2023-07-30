@@ -12,17 +12,47 @@
           "span": {
             "start": 12,
             "finish": 25
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 1
+            },
+            "finish": {
+              "col": 0,
+              "row": 2
+            }
           }
         }
       ],
       "span": {
         "start": 0,
         "finish": 27
+      },
+      "loc": {
+        "start": {
+          "col": 0,
+          "row": 0
+        },
+        "finish": {
+          "col": 1,
+          "row": 2
+        }
       }
     }
   ],
   "span": {
     "start": 0,
     "finish": 27
+  },
+  "loc": {
+    "start": {
+      "col": 0,
+      "row": 0
+    },
+    "finish": {
+      "col": 1,
+      "row": 2
+    }
   }
 }

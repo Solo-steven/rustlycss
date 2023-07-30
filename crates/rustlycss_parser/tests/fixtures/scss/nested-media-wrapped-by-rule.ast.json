@@ -17,6 +17,16 @@
               "span": {
                 "start": 73,
                 "finish": 84
+              },
+              "loc": {
+                "start": {
+                  "col": 8,
+                  "row": 2
+                },
+                "finish": {
+                  "col": 0,
+                  "row": 3
+                }
               }
             },
             {
@@ -31,18 +41,48 @@
                   "span": {
                     "start": 144,
                     "finish": 158
+                  },
+                  "loc": {
+                    "start": {
+                      "col": 12,
+                      "row": 4
+                    },
+                    "finish": {
+                      "col": 0,
+                      "row": 5
+                    }
                   }
                 }
               ],
               "span": {
                 "start": 93,
                 "finish": 168
+              },
+              "loc": {
+                "start": {
+                  "col": 8,
+                  "row": 3
+                },
+                "finish": {
+                  "col": 0,
+                  "row": 6
+                }
               }
             }
           ],
           "span": {
             "start": 25,
             "finish": 174
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 1
+            },
+            "finish": {
+              "col": 0,
+              "row": 7
+            }
           }
         },
         {
@@ -56,23 +96,63 @@
               "span": {
                 "start": 200,
                 "finish": 216
+              },
+              "loc": {
+                "start": {
+                  "col": 8,
+                  "row": 8
+                },
+                "finish": {
+                  "col": 0,
+                  "row": 9
+                }
               }
             }
           ],
           "span": {
             "start": 179,
             "finish": 222
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 7
+            },
+            "finish": {
+              "col": 0,
+              "row": 10
+            }
           }
         }
       ],
       "span": {
         "start": 0,
         "finish": 224
+      },
+      "loc": {
+        "start": {
+          "col": 0,
+          "row": 0
+        },
+        "finish": {
+          "col": 1,
+          "row": 10
+        }
       }
     }
   ],
   "span": {
     "start": 0,
     "finish": 224
+  },
+  "loc": {
+    "start": {
+      "col": 0,
+      "row": 0
+    },
+    "finish": {
+      "col": 1,
+      "row": 10
+    }
   }
 }

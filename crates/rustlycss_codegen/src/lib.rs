@@ -28,7 +28,9 @@ impl<'a> Generator<'a> {
     // util function for write a value into string
     #[inline]
     fn write_str(&mut self,value: &str) {
-        self.pos.col += value.chars().count();
+        if self.config.sourcemap {
+            self.pos.col += value.chars().count();
+        }
         self.output.push_str(value);
     }
     #[inline]

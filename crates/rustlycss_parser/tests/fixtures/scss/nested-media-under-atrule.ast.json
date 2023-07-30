@@ -22,18 +22,48 @@
                   "span": {
                     "start": 115,
                     "finish": 126
+                  },
+                  "loc": {
+                    "start": {
+                      "col": 12,
+                      "row": 3
+                    },
+                    "finish": {
+                      "col": 0,
+                      "row": 4
+                    }
                   }
                 }
               ],
               "span": {
                 "start": 90,
                 "finish": 136
+              },
+              "loc": {
+                "start": {
+                  "col": 8,
+                  "row": 2
+                },
+                "finish": {
+                  "col": 0,
+                  "row": 5
+                }
               }
             }
           ],
           "span": {
             "start": 43,
             "finish": 142
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 1
+            },
+            "finish": {
+              "col": 0,
+              "row": 6
+            }
           }
         },
         {
@@ -47,23 +77,63 @@
               "span": {
                 "start": 163,
                 "finish": 171
+              },
+              "loc": {
+                "start": {
+                  "col": 8,
+                  "row": 7
+                },
+                "finish": {
+                  "col": 0,
+                  "row": 8
+                }
               }
             }
           ],
           "span": {
             "start": 147,
             "finish": 177
+          },
+          "loc": {
+            "start": {
+              "col": 4,
+              "row": 6
+            },
+            "finish": {
+              "col": 0,
+              "row": 9
+            }
           }
         }
       ],
       "span": {
         "start": 0,
         "finish": 179
+      },
+      "loc": {
+        "start": {
+          "col": 0,
+          "row": 0
+        },
+        "finish": {
+          "col": 1,
+          "row": 9
+        }
       }
     }
   ],
   "span": {
     "start": 0,
     "finish": 179
+  },
+  "loc": {
+    "start": {
+      "col": 0,
+      "row": 0
+    },
+    "finish": {
+      "col": 1,
+      "row": 9
+    }
   }
 }

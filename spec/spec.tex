@@ -1,0 +1,204 @@
+\documentclass[12pt, a4papaer, AutoFakeBold, AutoFakeSlant]{article}
+\usepackage{neuralnetwork}
+\usepackage{algpseudocode}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+
+%%% GEOMETRY SETTING %%%
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{geometry} % Setting the geometry of the document
+\geometry{headheight = 0.5cm, bottom = 0.5cm, right = 2cm, left = 2cm}
+\usepackage{appendix}
+
+%%% FIGURE SETTING %%%
+\usepackage{graphicx} % Required to insert images
+\usepackage{float}
+\usepackage{subfigure}
+\graphicspath{{./figures/}}
+
+%%% TABLE SETTING %%%
+\usepackage{booktabs} % include more gallery for tables
+\usepackage{longtable} % If you need longtable
+\usepackage{dcolumn} % For single row in stargazer regression table
+\usepackage{multirow} % Multirow or multicolumn cell in table
+
+%%% TIKZ SETTING %%%
+\usepackage{tikz}
+\usepackage{standalone}
+\tikzset{>=latex} % for LaTeX arrow head
+\usepackage{pgfplots} % for the axis environment
+\usepackage{xcolor}
+\usepackage[outline]{contour} % halo around text
+\contourlength{1.2pt}
+\usetikzlibrary{positioning,calc}
+\usetikzlibrary{backgrounds}% required for 'inner frame sep'
+%\usepackage{adjustbox} % add whitespace (trim)
+
+% define gaussian pdf and cdf
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+\pgfmathdeclarefunction{cdf}{3}{%
+	\pgfmathparse{1/(1+exp(-0.07056*((#1-#2)/#3)^3 - 1.5976*(#1-#2)/#3))}%
+}
+\pgfmathdeclarefunction{fq}{3}{%
+	\pgfmathparse{1/(sqrt(2*pi*#1))*exp(-(sqrt(#1)-#2/#3)^2/2)}%
+}
+\pgfmathdeclarefunction{fq0}{1}{%
+	\pgfmathparse{1/(sqrt(2*pi*#1))*exp(-#1/2))}%
+}
+
+\colorlet{mydarkblue}{blue!30!black}
+
+% to fill an area under function
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\pgfplotsset{compat=1.12} % TikZ coordinates <-> axes coordinates
+% https://tex.stackexchange.com/questions/240642/add-vertical-line-of-equation-x-2-and-shade-a-region-in-graph-by-pgfplots
+
+% plot aspect ratio
+%\def\axisdefaultwidth{8cm}
+%\def\axisdefaultheight{6cm}
+
+% number of sample points
+\def\N{50}
+
+\usepackage{mathtools}
+
+\usepackage{tkz-euclide}
+
+% arrow and line for 'tkzPointShowCoord'
+\makeatletter
+\tikzset{arrow coord style/.style={%
+		densely dashed,
+		\tkz@euc@linecolor,
+		%>=stealth',
+		%->,
+}}
+\tikzset{xcoord style/.style={%
+		\tkz@euc@labelcolor,
+		font=\normalsize,text height=1ex,
+		inner sep = 0pt,
+		outer sep = 0pt,
+		fill=\tkz@fillcolor,
+		below=6pt
+}} 
+\tikzset{ycoord style/.style={%
+		\tkz@euc@labelcolor,
+		font=\normalsize,text height=1ex, 
+		inner sep = 0pt,
+		outer sep = 0pt, 
+		fill=\tkz@fillcolor,
+		left=6pt
+}}  
+\makeatother
+
+%%% EMBED CODE SETTING %%%
+\usepackage{listings, lstautogobble} % For insert cod in the document
+\lstset{
+	backgroundcolor = \color{lightgray},
+	basicstyle = {\small\ttfamily},
+	breaklines = true,
+	postbreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\color{lightgray}\hookrightarrow\space}},
+	stringstyle=\color{darkcyan},
+	otherkeywords={0,1,2,3,4,5,6,7,8,9},
+	morekeywords={TRUE,FALSE},
+	deletekeywords={data,frame,length,as,character},
+	keywordstyle=\color{blue},
+	commentstyle=\color{darkcyan},
+}
+
+%%% MATH SETTING %%%
+\usepackage{amsmath, mathtools, amssymb, empheq, amsthm, cancel, mleftright} % 
+\DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\renewcommand\qedsymbol{$\blacksquare$}
+\allowdisplaybreaks
+% [HINT] You can use \newcommand{cmd}[args][default]{def} to create your own command
+
+%%% COLORBOX SETTING %%%
+\usepackage{tcolorbox}
+\newtcolorbox{whitebox}{colframe = white}
+
+%%% REFFERENCE SETTING %%%
+\usepackage{hyperref} % Set some hyperref style
+\hypersetup{
+    colorlinks = true,
+    linkcolor = blue,
+    filecolor = magenta,      
+    urlcolor = sinopia,
+}
+\urlstyle{same}
+
+%%% TITLE SETTING %%%
+\usepackage{titlesec} % Custom section title style
+\titleformat{\section}{\normalfont\Large}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\yuan}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}\quad}{0em}{}
+
+%%% COLOR SETTING %%%
+\usepackage{xcolor}
+\definecolor{lightgray}{RGB}{242, 242, 242}
+\definecolor{shadecolor}{rgb}{0.94, 0.97, 1.0}
+\definecolor{sinopia}{rgb}{0.8, 0.25, 0.04}
+\definecolor{brightmaroon}{rgb}{0.76, 0.13, 0.28}
+\definecolor{deepcarmine}{rgb}{0.66, 0.13, 0.24}
+\definecolor{shadecolor}{rgb}{0.94, 0.97, 1.0}
+\definecolor{sinopia}{rgb}{0.8, 0.25, 0.04}
+\definecolor{brightmaroon}{rgb}{0.76, 0.13, 0.28}
+\definecolor{deepcarmine}{rgb}{0.66, 0.13, 0.24}
+\definecolor{darkcyan}{rgb}{0.0, 0.55, 0.55}
+
+%%% MISCELLANEOUS SETTING%%%
+\usepackage{gensymb}
+
+\usepackage{parskip} % No indents for each paragraphs
+\parindent = 0pt
+
+\usepackage{setspace} % Set linespace to one and a half
+\onehalfspacing
+
+\usepackage{enumitem} % custom bullets
+
+\usepackage{ragged2e}
+
+%----------------------------------------------------------------------------------------
+% HEADER AND FOOTER
+%---------------------------------------------------------------------------------------
+
+\pagestyle{fancy}
+\fancyhf{}
+\begin{document}
+\justifying
+\subsection*{Syntax}
+\begin{align*}
+& Root:\\
+& \quad\quad \ Children \\
+& Children: \\
+& \quad \quad Child  \\ 
+& \quad \quad Children \\ 
+& Child: \\
+& \quad\quad \ Declaration \\
+& \quad\quad \ Rule \\
+& \quad\quad \ AtRule \\
+& Declaration: \\
+& \quad \quad \ Property \  : \  Value \\
+& Rule: \\
+& \quad\quad \ Selector\  \{  \ Children \  \} \\
+& AtRule: \\
+& \quad\quad \  @ Key \ Param  \   \{  \ Children \  \} \\
+\end{align*}
+\subsection*{Token}
+\begin{align*}
+& Property := \  Any \ Charater \ \  but \  Not \  Brackets \ Space \ Changeline \\
+& Value := \  Any \ Charater \ \  but \  Not \  Brackets \\
+& Selector := \  Any \ Charater \ \  but \  Not \  Brackets \\
+& Key := \  Any \ Charater \ \  but \  Not \  Brackets \ Braces \ Parentheses \ Space \ Changeline \\
+& Param :=  \  Any \ Charater \ \  but \  Not \  Brackets \\
+\end{align*}
+\end{document}
