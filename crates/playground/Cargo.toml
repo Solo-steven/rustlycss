@@ -9,6 +9,7 @@ edition = "2021"
 rustlycss_types = { version = "0.1.0", path = "../rustlycss_types"}
 rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
 rustlycss_codegen = {version = "*", path = "../rustlycss_codegen"}
+rustlycss_nested = {version="*", path = "../rustlycss_nested"}
 
 [dev-dependencies]
 criterion = { version = "0.4", features = ["html_reports"] }
