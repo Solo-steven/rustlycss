@@ -1,4 +1,3 @@
-
 use rustlycss_types::token::Token;
 use rustlycss_types::position::{Span, Position, Location};
 use rustlycss_types::config::GeneralConfig;

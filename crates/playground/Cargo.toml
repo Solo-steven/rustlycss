@@ -1,5 +1,5 @@
 [package]
-name = "rustlycss_codegen"
+name = "playgorund"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,16 +7,8 @@ edition = "2021"
 
 [dependencies]
 rustlycss_types = { version = "0.1.0", path = "../rustlycss_types"}
-sourcemap = "6.3.0"
+rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
+rustlycss_codegen = {version = "*", path = "../rustlycss_codegen"}
 
 [dev-dependencies]
 criterion = { version = "0.4", features = ["html_reports"] }
-rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
-
-[[bench]]
-name = "benches_pure_codegen"
-harness = false
-
-[[bench]]
-name = "benches_srcmap_codegen"
-harness = false

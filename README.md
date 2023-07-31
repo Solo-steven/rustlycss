@@ -4,7 +4,7 @@ rustlycss is a css transform tool builded in rust.Insipred by postcss, rustlycss
 
 ## Benchmark
 
-benchmark run on personal computed (Macbook pro 2021, M1 pro chip)
+benchmark run on personal computed (Macbook pro 2021, M1 pro chip), tool using tinybench for js and criterion for rust.
 ### Parser
 | **file** |  bootstrap-reboot.css   |    bootstrap.css     | tailwind-dark.css |
 | -------: | ----------------------: | -------------------: | -----------------: | 
@@ -32,4 +32,8 @@ benchmark run on personal computed (Macbook pro 2021, M1 pro chip)
 
 ## Syntax
 
-Please to go /spec/spec.pdf for syntax production rule
+Please to go `/spec/spec.pdf` for syntax production rule
+
+## ACKNOWLEDGEMENT
+
+This project is deeply inspired by postcss and postcss-rs, thanks [Andrey Sitnik](https://github.com/ai) and [postcss-rs contributor](https://github.com/postcss-rs/postcss-rs/graphs/contributors).

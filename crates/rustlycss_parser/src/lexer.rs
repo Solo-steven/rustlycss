@@ -60,6 +60,7 @@ impl<'a> Lexer<'a> {
                     /*
                        TODO: performance impact
                      */
+                   // if self._config.sourcemap {
                     match code {
                         '\n' => {
                             self.pos.col = 0;
@@ -69,6 +70,7 @@ impl<'a> Lexer<'a> {
                             self.pos.col += 1;
                         }
                     }
+                   // }
                     n -= 1;
                     match self.iter.next() {
                         Some(tuple) => {
@@ -91,12 +93,16 @@ impl<'a> Lexer<'a> {
     #[inline]
     fn start_token(&mut self) {
         self.start_byte_index = self.iter_byte_index;
+       // if self._config.sourcemap {
         self.start_pos = self.pos.clone();
+       // }
     }
     #[inline]
     fn finish_token(&mut self) {
         self.finish_byte_index = self.iter_byte_index;
+      //  if self._config.sourcemap {
         self.finish_pos = self.pos.clone();
+      //  }
     }
     pub fn get_start_pos(&self)-> Position {
         self.start_pos.clone()
