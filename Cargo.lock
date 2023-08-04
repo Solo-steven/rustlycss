@@ -502,6 +502,8 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "regex",
+ "rustlycss_codegen",
+ "rustlycss_parser",
  "rustlycss_types",
 ]
 

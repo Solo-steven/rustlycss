@@ -1,0 +1,18 @@
+.root .container .item {
+   flex: 1;
+}
+.root > some-child > nested-child {
+   color: red;
+}
+.root__bem_naming > another__bem__naming {
+   color: green;
+}
+.root .container {
+   display: flex;
+}
+.root > some-child {
+   padding: 12px;
+}
+.root__bem_naming {
+   margin: 12px;
+}

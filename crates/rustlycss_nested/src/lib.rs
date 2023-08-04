@@ -164,15 +164,27 @@ impl<'a> NestedVisitor<'a> {
     fn accept_rule(&mut self, root: &mut Rule<'a>, prefix:&str) -> Action {
         // if selector contain &, replace it with prefix rule name
         // if is not contain &, prefix should add current selector to the s
-        if root.selector.contains('&') {
-            let new_selector_string = String::from(self.test.replace_all(root.selector.as_ref(), prefix));
-            root.selector = Cow::Owned(new_selector_string);
-        } else {
-            if prefix.len() != 0 {
-                let mut new_selector_string = String::from(prefix);
-                new_selector_string.push_str(" ");
-                new_selector_string.push_str(root.selector.as_ref());
+        let is_selectors = root.selector.split(",").count() > 1; 
+        if is_selectors {
+            let selectors = root.selector.split(",");
+            for selector_not_trim in selectors {
+                let selector = selector_not_trim.trim();
+                let mut new_root = root.clone();
+                new_root.selector = Cow::Owned(String::from(selector));
+                self.accept_rule(&mut new_root, prefix);
+            }
+            return Action::Remove;
+        }else {
+            if root.selector.contains('&') {
+                let new_selector_string = String::from(self.test.replace_all(root.selector.as_ref(), prefix));
                 root.selector = Cow::Owned(new_selector_string);
+            } else {
+                if prefix.len() != 0 {
+                    let mut new_selector_string = String::from(prefix);
+                    new_selector_string.push_str(" ");
+                    new_selector_string.push_str(root.selector.as_ref());
+                    root.selector = Cow::Owned(new_selector_string);
+                }
             }
         }
         // iterate over children, apply action according to return

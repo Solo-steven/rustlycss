@@ -1,0 +1,8 @@
+.container {
+    &:not(&__color) {
+        color: green;
+    }
+    &__color {
+        color: red;
+    }
+}

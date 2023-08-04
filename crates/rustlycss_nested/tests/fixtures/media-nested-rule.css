@@ -1,0 +1,17 @@
+@media screen and (max-width: 500px) {
+   .top-level-rule .container .item {
+      flex: 1;
+   }
+   .top-level-rule .container {
+      display: flex;
+   }
+}
+@media screen and (max-width: 800px) {
+   .top-level-rule {
+      color: red;
+      background-color: aliceblue;
+   }
+}
+.top-level-rule > some-nested-rule {
+   color: green;
+}
