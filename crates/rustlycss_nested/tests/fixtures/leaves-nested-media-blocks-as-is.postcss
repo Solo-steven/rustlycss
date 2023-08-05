@@ -1,0 +1,14 @@
+a { 
+    flex: 1 
+}
+a {
+    @media screen {
+        b {
+            @media (max-width: 100rem) {
+                @media (min-width: 50rem) {
+                    a: 1
+                }
+            }
+        }
+    }
+}

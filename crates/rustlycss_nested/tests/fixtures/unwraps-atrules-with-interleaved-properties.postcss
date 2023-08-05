@@ -1,0 +1,12 @@
+a { 
+    flex: 1 
+} 
+a { 
+    color: red; 
+    @media screen { 
+        @supports (a: 1) { 
+            a: 1 
+        } 
+    } 
+    background: green 
+}

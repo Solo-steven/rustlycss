@@ -7,10 +7,10 @@ use std::io::Write;
 
 fn main() {
     let code = "
-        .one, .class {
-            &:hover {
+        div { 
+            &[data-category='sound & vision'] {
                 color: red;
-            }
+            } 
         }
     ";
     let config = GeneralConfig::from(false, false);

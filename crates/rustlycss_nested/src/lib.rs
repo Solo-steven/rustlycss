@@ -5,9 +5,10 @@ use rustlycss_types::ast::*;
 
 pub struct  NestedVisitor<'a> {
     new_rules: Vec<Child<'a>>,
-    test: Regex
+    ampersand_regex: Regex,
+    string_literal_regex: Regex
 }
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 enum Action {
     Remove,
     Keep,
@@ -37,7 +38,8 @@ impl<'a> NestedVisitor<'a> {
     pub fn new() -> Self {
         NestedVisitor { 
             new_rules: Vec::new(),
-            test: Regex::new(r"&").unwrap()
+            ampersand_regex: Regex::new(r"&").unwrap(),
+            string_literal_regex: Regex::new("[\"\'][^\'\"]*&[^\"\']*[\"\']").unwrap(),
         }
     }
     pub fn visit(&mut self, root: &mut Root<'a>) {
@@ -95,7 +97,7 @@ impl<'a> NestedVisitor<'a> {
         // 1. put all new_node into media's nodes vec
         // 2. if there are any declaration, create a new rule node to wrap declars.
         match root.name.as_ref() {
-            "media" => {
+            "media" | "supports" => {
                 match root.nodes.as_mut() {
                     Some(nodes) => {
                         let mut declars = Vec::<Declaration<'a>>::new();
@@ -162,8 +164,6 @@ impl<'a> NestedVisitor<'a> {
         return Action::ToTopLevel;
     }
     fn accept_rule(&mut self, root: &mut Rule<'a>, prefix:&str) -> Action {
-        // if selector contain &, replace it with prefix rule name
-        // if is not contain &, prefix should add current selector to the s
         let is_selectors = root.selector.split(",").count() > 1; 
         if is_selectors {
             let selectors = root.selector.split(",");
@@ -171,12 +171,31 @@ impl<'a> NestedVisitor<'a> {
                 let selector = selector_not_trim.trim();
                 let mut new_root = root.clone();
                 new_root.selector = Cow::Owned(String::from(selector));
-                self.accept_rule(&mut new_root, prefix);
+                let action = self.accept_rule(&mut new_root, prefix);
+                if Action::ToTopLevel == action {
+                    self.new_rules.push(Child::Rule(new_root))
+                }else {
+                    //logical error
+                }
             }
             return Action::Remove;
         }else {
+            // if selector contain &, replace it with prefix rule name
+            // if is not contain &, prefix should add current selector to the s
             if root.selector.contains('&') {
-                let new_selector_string = String::from(self.test.replace_all(root.selector.as_ref(), prefix));
+                // if there are any string literal contain &, replace it as `__rustly_css_ts_{index}` frist
+                let mut new_selector_string = String::from(root.selector.as_ref());
+                let match_string_literals: Vec<_> = self.string_literal_regex.find_iter(&root.selector).map(|m| m.as_str()).collect();
+                for (index, match_string_literal) in match_string_literals.iter().enumerate() {
+                    let current_test = Regex::new(match_string_literal).unwrap();
+                    new_selector_string = String::from(current_test.replace_all(&new_selector_string, format!("'__rustlycss_ts_{}'", index)).as_ref());
+                }
+                new_selector_string = String::from(self.ampersand_regex.replace_all(new_selector_string.as_ref(), prefix));
+                // if there are any string literal be replaced `__rustly_css_ts_{index}`, replace back to original string
+                for (index, match_string_literal) in match_string_literals.iter().enumerate() {
+                    let current_test = Regex::new(format!("'__rustlycss_ts_{}'", index).as_str()).unwrap();
+                    new_selector_string = String::from(current_test.replace_all(&new_selector_string, *match_string_literal).as_ref());
+                }
                 root.selector = Cow::Owned(new_selector_string);
             } else {
                 if prefix.len() != 0 {
