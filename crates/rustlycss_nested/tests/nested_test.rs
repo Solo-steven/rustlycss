@@ -141,4 +141,8 @@ mod test {
     fn test_unwraps_rule_inside_atrule() {
         test_case!("./tests/fixtures/unwraps-rule-inside-atrule");
     }
+    #[test]
+    fn test_does_not_move_custom_atrules_placed_under_nested() {
+        test_case!("./tests/fixtures/does-not-move-custom-atrules-placed-under-nested");
+    } 
 }

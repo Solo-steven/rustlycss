@@ -97,7 +97,7 @@ impl<'a> NestedVisitor<'a> {
         // 1. put all new_node into media's nodes vec
         // 2. if there are any declaration, create a new rule node to wrap declars.
         match root.name.as_ref() {
-            "media" | "supports" => {
+            "media" | "supports" | "keyframes"  => {
                 match root.nodes.as_mut() {
                     Some(nodes) => {
                         let mut declars = Vec::<Declaration<'a>>::new();
@@ -132,6 +132,7 @@ impl<'a> NestedVisitor<'a> {
                             }
                             nodes.push(Child::Rule(wrapper_node));
                         }
+                        return Action::ToTopLevel;
                     },
                     None => {}
                 }
@@ -155,13 +156,17 @@ impl<'a> NestedVisitor<'a> {
                                     return false;
                                 }
                             }
-                        })
+                        });
+                        return match root.name.as_ref() {
+                            "font-face" => Action::ToTopLevel,
+                            _ => Action::Keep
+                        }
                     }
                     None => {}
                 }
             }
         };
-        return Action::ToTopLevel;
+        return Action::Keep
     }
     fn accept_rule(&mut self, root: &mut Rule<'a>, prefix:&str) -> Action {
         let is_selectors = root.selector.split(",").count() > 1; 
