@@ -13,3 +13,8 @@ regex = "1"
 criterion = { version = "0.4", features = ["html_reports"] }
 rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
 rustlycss_codegen = {version = "*", path = "../rustlycss_codegen"}
+rustlycss_types = {version = "*", path="../rustlycss_types"}
+
+[[bench]]
+name = "benches_nested"
+harness = false
