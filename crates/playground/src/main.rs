@@ -11,6 +11,7 @@ fn main() {
             &[data-category='sound & vision'] {
                 color: red;
             } 
+            @include(32)
         }
     ";
     let config = GeneralConfig::from(false, false);

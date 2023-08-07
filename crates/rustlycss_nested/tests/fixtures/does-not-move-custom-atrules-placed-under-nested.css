@@ -1,0 +1,7 @@
+.top-level {
+   @custom-atrule 12}
+@media screen {
+   .top-level {
+      display: flex;
+   }
+}
