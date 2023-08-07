@@ -1,0 +1,8 @@
+a {
+   color: white;
+}
+@keyframes name {
+   a to {
+      color: black;
+   }
+}

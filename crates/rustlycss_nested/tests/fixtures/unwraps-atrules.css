@@ -1,0 +1,10 @@
+a {
+   flex: 1;
+}
+@media screen {
+   @supports (a: 1) {
+      a {
+         a: 1;
+      }
+   }
+}

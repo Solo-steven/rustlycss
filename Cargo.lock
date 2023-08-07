@@ -375,6 +375,7 @@ version = "0.1.0"
 dependencies = [
  "criterion",
  "rustlycss_codegen",
+ "rustlycss_nested",
  "rustlycss_parser",
  "rustlycss_types",
 ]
@@ -493,6 +494,17 @@ dependencies = [
  "rustlycss_parser",
  "rustlycss_types",
  "sourcemap",
+]
+
+[[package]]
+name = "rustlycss_nested"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "regex",
+ "rustlycss_codegen",
+ "rustlycss_parser",
+ "rustlycss_types",
 ]
 
 [[package]]

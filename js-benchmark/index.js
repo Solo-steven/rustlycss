@@ -2,13 +2,18 @@ const { Bench } = require('tinybench');
 const fs = require('fs');
 const path = require('path');
 const bench = new Bench({ time: 250 });
+const postcss = require('postcss');
 const { parse, stringify } = require('postcss');
 const tokenizer = require('postcss/lib/tokenize');
 const mapGenerator = require('postcss/lib/map-generator');
+const nestedPlugin = require('postcss-nested');
 
 const tinyFileString =  fs.readFileSync(path.join(__dirname, "../assets/bootstrap-rebot.css")).toString();
 const biggerFileString =  fs.readFileSync(path.join(__dirname, "../assets/bootstrap.css")).toString();
 const hugeFileString =  fs.readFileSync(path.join(__dirname, "../assets/tailwind-dark.css")).toString();
+const tinyNestedString = fs.readFileSync(path.join(__dirname, "../assets/nested-tiny.postcss")).toString();
+const biggerNestedString = fs.readFileSync(path.join(__dirname, "../assets/nested-bigger.postcss")).toString();
+
 async function benchFun() {
     let tinyFileAST = parse(tinyFileString);;
     let biggerFileAST = parse(biggerFileString);
@@ -58,6 +63,12 @@ async function benchFun() {
     .add('postcss generator huge file with source map', async () => {
         let gen = new mapGenerator(stringify, hugeFileAST, { map: { inline: false } });
         gen.generateMap();
+    })
+    .add('postcss using nested plugin for tiny file', async () => {
+        await postcss([nestedPlugin()]).process(tinyNestedString).then(() => {});
+    })
+    .add('postcss using nested plugin for bigger file', async () => {
+        await postcss([nestedPlugin()]).process(biggerNestedString).then(() => {});
     })
 
     await bench.run();
