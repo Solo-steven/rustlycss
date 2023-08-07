@@ -132,6 +132,5 @@ impl<'a> Generator<'a> {
             None => {}
         }
         self.add_mapping(root.loc.finish.clone(), self.pos.clone());
-        return;
     }
 }

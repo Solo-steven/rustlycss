@@ -25,7 +25,7 @@ mod test {
             let mut codegen = Generator::new(&config);
             let mut visitor = NestedVisitor::new();
             visitor.visit(&mut root);
-            codegen.generate(&mut root);
+            codegen.generate(&root);
     
             match read_to_string(css_file_path.as_str()) {
                 Ok(file) => {

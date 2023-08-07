@@ -6,6 +6,12 @@ pub struct GeneralConfig {
     pub sourcemap: bool
 }
 
+impl Default for GeneralConfig {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GeneralConfig {
     pub fn new() -> Self {
         Self { minify: false, sourcemap: false }

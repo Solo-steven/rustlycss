@@ -14,13 +14,10 @@ fn criterion_benchmark(c: &mut Criterion) {
         &TINT_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut lexer = Lexer::new(*file, &enable_sourcemap);
+                let mut lexer = Lexer::new(file, &enable_sourcemap);
                 loop {
-                    match  lexer.next_token(){
-                        Token::EOF => break ,
-                        _ => {
-
-                        }
+                    if lexer.next_token() == Token::EOF {
+                        break;
                     }
                 }
             })
@@ -31,13 +28,10 @@ fn criterion_benchmark(c: &mut Criterion) {
         &BIG_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut lexer = Lexer::new(*file, &enable_sourcemap);
+                let mut lexer = Lexer::new(file, &enable_sourcemap);
                 loop {
-                    match  lexer.next_token(){
-                        Token::EOF => break ,
-                        _ => {
-
-                        }
+                    if lexer.next_token() == Token::EOF {
+                        break;
                     }
                 }
             })
@@ -48,13 +42,10 @@ fn criterion_benchmark(c: &mut Criterion) {
         &HUGE_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut lexer = Lexer::new(*file, &enable_sourcemap);
+                let mut lexer = Lexer::new(file, &enable_sourcemap);
                 loop {
-                    match  lexer.next_token(){
-                        Token::EOF => break ,
-                        _ => {
-
-                        }
+                    if lexer.next_token() == Token::EOF {
+                        break;
                     }
                 }
             })

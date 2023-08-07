@@ -23,8 +23,5 @@ fn main() {
     gen.generate(&root);
     println!("{:?}", gen.output);
     let mut output = File::create("test.css").unwrap();
-    match write!(output, "{}", gen.output.as_str()) {
-        Ok(_) => {},
-        Err(_) => {}
-    }
+    write!(output, "{}", gen.output.as_str()).unwrap();
 }

@@ -24,17 +24,14 @@ impl<'a> Walkable for Rule<'a> {
 }
 impl<'a >Walkable for AtRule<'a> {
     fn visit_mut_children<V: Visitor>(&mut self, visitor: &mut V) {
-        match self.nodes.as_mut() {
-            Some(nodes) => {
-                for node in nodes {
-                    match node {
-                        Child::AtRule(at_rule) => visitor.visit_mut_at_rule(at_rule),
-                        Child::Declar(declar) => visitor.visit_mut_declaration(declar),
-                        Child::Rule(rule) => visitor.visit_mut_rule(rule)
-                    }
+        if let Some(nodes) = self.nodes.as_mut() {
+            for node in nodes {
+                match node {
+                    Child::AtRule(at_rule) => visitor.visit_mut_at_rule(at_rule),
+                    Child::Declar(declar) => visitor.visit_mut_declaration(declar),
+                    Child::Rule(rule) => visitor.visit_mut_rule(rule)
                 }
             }
-            None => {}
         }
     }
 }
