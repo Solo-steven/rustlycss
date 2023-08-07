@@ -58,11 +58,8 @@ impl<'a> Parser <'a> {
     }
     #[inline]
     fn skip_changeline_and_space(& mut self) {
-        loop {
-            match self.get_token() {
-                Token::NewLine | Token::Space  => self.next_token(),
-                _ => break 
-            };
+        while let Token::NewLine | Token::Space = self.get_token() {
+            self.next_token();
         }
     }
     #[inline]
@@ -92,7 +89,7 @@ impl<'a> Parser <'a> {
         }
         let finish_byte_index = self.get_finish_byte_index();
         let finish_pos = self.get_finish_pos();
-        return Root { nodes, span: Span::from(0 , finish_byte_index), loc: Location::from(start_pos, finish_pos) }
+        Root { nodes, span: Span::from(0 , finish_byte_index), loc: Location::from(start_pos, finish_pos) }
     }
     fn parse_at_rule(&mut self) -> AtRule<'a> {
         let start_byte_index: usize;
@@ -135,11 +132,11 @@ impl<'a> Parser <'a> {
         }
         finish_byte_index = self.get_start_byte_index();
         finish_pos = self.get_finish_pos();
-        return AtRule { 
+        AtRule { 
             name, param, nodes, 
             span: Span::from(start_byte_index, finish_byte_index),
             loc: Location::from(start_pos, finish_pos)
-        };
+        }
     }
     #[inline]
     fn parse_at_rule_name(&mut self) -> Cow<'a, str> {
@@ -223,7 +220,7 @@ impl<'a> Parser <'a> {
                 syntax_error!("nodes must wrap in braces");
             }
         }
-        return nodes;
+        nodes
     }
     // this function only call in `parse_nodes_in_braces` and `parse_root` parse loop
     // after `skip_changeline_and_space`, so frist token in this function main loop 
@@ -318,7 +315,7 @@ impl<'a> Parser <'a> {
                     self.next_token();
                 }
                 _ => {
-                    if is_start_not_changeline_and_space == false {
+                    if !is_start_not_changeline_and_space {
                         is_start_not_changeline_and_space = true;
                         start_index_of_value = self.get_start_byte_index();
                     }

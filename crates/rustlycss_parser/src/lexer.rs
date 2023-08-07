@@ -44,7 +44,7 @@ impl<'a> Lexer<'a> {
     }
     #[inline]
     fn get_char(&self) -> Option<char>{
-        return self.iter_char;
+        self.iter_char
     }
     #[inline]
     pub fn eat_char(&mut self, mut n: usize) {
@@ -204,7 +204,7 @@ impl<'a> Lexer<'a> {
                 }
             }
         };
-        return self.token.clone();
+        self.token.clone()
     }
     #[inline]
     fn read_string_literal(&mut self) -> Token{

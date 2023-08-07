@@ -13,7 +13,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         &TINT_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut parser = Parser::new(*file, &disable_sourcemap);
+                let mut parser = Parser::new(file, &disable_sourcemap);
                 parser.parse();
             })
         }
@@ -23,7 +23,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         &BIG_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut parser = Parser::new(*file, &disable_sourcemap);
+                let mut parser = Parser::new(file, &disable_sourcemap);
                 parser.parse();
             })
         }
@@ -33,7 +33,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         &HUGE_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut parser = Parser::new(*file, &disable_sourcemap);
+                let mut parser = Parser::new(file, &disable_sourcemap);
                 parser.parse();
             })
         }

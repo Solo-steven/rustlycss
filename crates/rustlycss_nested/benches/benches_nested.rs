@@ -14,7 +14,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         &TINT_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut parser = Parser::new(*file, &config);
+                let mut parser = Parser::new(file, &config);
                 let mut root = parser.parse();
                 let mut visitor = NestedVisitor::new();
                 visitor.visit(&mut root);
@@ -29,7 +29,7 @@ fn criterion_benchmark(c: &mut Criterion) {
         &BIGGER_FILE_STR, 
         |b, file| {
             b.iter(|| { 
-                let mut parser = Parser::new(*file, &config);
+                let mut parser = Parser::new(file, &config);
                 let mut root = parser.parse();
                 let mut visitor = NestedVisitor::new();
                 visitor.visit(&mut root);

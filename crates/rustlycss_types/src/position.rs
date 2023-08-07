@@ -6,6 +6,12 @@ pub struct Position {
     pub row: usize,
 }
 
+impl Default for Position {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Position {
     pub fn new() -> Self {
         Position { col: 0, row: 0}
@@ -20,6 +26,12 @@ pub struct Location {
     pub finish: Position,
 }
 
+impl Default for Location {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Location {
     pub fn new() -> Self {
         Self { start: Position::new(), finish: Position::new() }
@@ -32,6 +44,12 @@ impl Location {
 pub struct  Span {
     pub start: usize,
     pub finish: usize,
+}
+
+impl Default for Span {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Span {
