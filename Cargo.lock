@@ -377,6 +377,7 @@ dependencies = [
  "rustlycss_codegen",
  "rustlycss_nested",
  "rustlycss_parser",
+ "rustlycss_simple_vars",
  "rustlycss_types",
 ]
 
@@ -516,6 +517,17 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
+]
+
+[[package]]
+name = "rustlycss_simple_vars"
+version = "0.1.0"
+dependencies = [
+ "criterion",
+ "regex",
+ "rustlycss_codegen",
+ "rustlycss_parser",
+ "rustlycss_types",
 ]
 
 [[package]]

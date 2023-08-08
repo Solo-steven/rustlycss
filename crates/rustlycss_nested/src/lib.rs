@@ -35,6 +35,12 @@ fn create_dummy_rule_with_str(prefix: &str) -> Rule<'static> {
     }
 }
 
+impl<'a> Default for NestedVisitor<'a> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<'a> NestedVisitor<'a> {
     pub fn new() -> Self {
         NestedVisitor { 

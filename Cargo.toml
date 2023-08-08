@@ -4,5 +4,6 @@ members = [
     "crates/rustlycss_parser",
     "crates/rustlycss_codegen",
     "crates/rustlycss_nested",
+    "crates/rustlycss_simple_vars",
     "crates/playground",
 ]
