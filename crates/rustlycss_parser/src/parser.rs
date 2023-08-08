@@ -229,7 +229,7 @@ impl<'a> Parser <'a> {
     fn parse_declar_or_rule(&mut self) -> Child<'a> {
         let start_pos = self.get_start_pos();
         let start_index_of_name = self.get_start_byte_index();
-        let mut end_index_of_name: usize = self.get_finish_byte_index();
+        let mut end_index_of_name: usize = self.get_start_byte_index();
         let mut is_space_or_changeline_between = false;
         loop {
             match self.get_token() {
@@ -303,6 +303,9 @@ impl<'a> Parser <'a> {
                     }
                     if is_space_or_newline_between {
                         syntax_error!("Declaration prop can not have space or new line");
+                    }
+                    if start_index_of_prop_or_selector == end_index_of_prop_or_selector {
+                        syntax_error!("Declaration's props can not be a empty string")
                     }
                     return Child::Declar(Declaration { 
                         prop: Cow::Borrowed(self.lexer.get_sub_str(start_index_of_prop_or_selector,end_index_of_prop_or_selector)),

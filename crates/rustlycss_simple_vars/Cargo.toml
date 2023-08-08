@@ -1,5 +1,5 @@
 [package]
-name = "playgorund"
+name = "rustlycss_simple_vars"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,10 +7,10 @@ edition = "2021"
 
 [dependencies]
 rustlycss_types = { version = "0.1.0", path = "../rustlycss_types"}
-rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
-rustlycss_codegen = {version = "*", path = "../rustlycss_codegen"}
-rustlycss_nested = {version="*", path = "../rustlycss_nested"}
-rustlycss_simple_vars = {version = "*", path = "../rustlycss_simple_vars"}
+regex = "1"
 
 [dev-dependencies]
 criterion = { version = "0.4", features = ["html_reports"] }
+rustlycss_parser = {version = "*", path = "../rustlycss_parser"}
+rustlycss_codegen = {version = "*", path = "../rustlycss_codegen"}
+rustlycss_types = {version = "*", path="../rustlycss_types"}
