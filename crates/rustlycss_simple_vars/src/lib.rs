@@ -1,3 +1,4 @@
+#[allow(clippy::all)]
 use rustlycss_types::ast::*;
 use std::borrow::Cow;
 use std::collections::HashMap;
@@ -7,9 +8,9 @@ use regex::Regex;
 pub struct SimpleVarVisitor<'a> {
     dollar_sign_regex: Regex,
     dollar_sign_with_parentheses_regex: Regex,
-    cache: HashMap<Cow<'a, str>, Cow<'a, str>>,
-    
+    cache: HashMap<Cow<'a, str>, Cow<'a, str>>,   
 }
+
 impl <'a> Default for SimpleVarVisitor<'a> {
     fn default() -> Self {
         Self::new()
